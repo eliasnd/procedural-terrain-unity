@@ -11,16 +11,13 @@ public class TerrainObjectEditor : Editor
         
         EditorGUILayout.Space();
 
-        if (script.generator == TerrainObject.Generator.Perlin || script.generator == TerrainObject.Generator.ExpPerlin) {
+        if (script.generator == TerrainObject.Generator.PerlinNoise || script.generator == TerrainObject.Generator.ExponentiallyDistributedNoise) {
             script.size = EditorGUILayout.IntField("Size", script.size);
             script.scale = EditorGUILayout.FloatField("Scale", script.scale);
             script.octaves = EditorGUILayout.IntField("Octaves", script.octaves);
             script.persistence = EditorGUILayout.FloatField("Persistence", script.persistence);
             script.lacunarity = EditorGUILayout.FloatField("Lacunarity", script.lacunarity);
             
-            if (script.generator == TerrainObject.Generator.ExpPerlin) {
-                script.exponent = EditorGUILayout.FloatField("Exponent", script.exponent);
-            }
         } else if (script.generator == TerrainObject.Generator.Geneveaux) {
             script.riverCount = EditorGUILayout.IntField("River Count", script.riverCount);
         }
