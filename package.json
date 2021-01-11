@@ -1,0 +1,17 @@
+{
+  "name": "com.eliasnd.procedural-terrain",
+  "version": "0.0.1",
+  "displayName": "Procedural Terrain",
+  "description": "A set of tools for procedurally generated terrain",
+  "unity": "2020.1",
+  "unityRelease": "13f1",
+  "dependencies": {},
+ "keywords": [
+    "procedural",
+    "terrain"
+  ],
+  "author": {
+    "name": "Elias N-D",
+    "email": "elias@ndcoding.com"
+  }
+}
