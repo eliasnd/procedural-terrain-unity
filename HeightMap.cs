@@ -47,6 +47,10 @@ public class HeightMap
         return clone;
     }
 
+    public bool OutOfBounds(int x, int y) {
+        return x < 0 || y < 0 || x >= size || y >= size;
+    }
+
     public Texture2D ToTexture2D() {
         Texture2D tex = new Texture2D(size, size);
 

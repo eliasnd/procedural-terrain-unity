@@ -20,6 +20,8 @@ public class TerrainObjectEditor : Editor
         SerializedProperty meshSize = serializedObject.FindProperty("meshSize");
         SerializedProperty heightCurve = serializedObject.FindProperty("heightCurve");
         SerializedProperty height = serializedObject.FindProperty("height");
+        SerializedProperty modifiers = serializedObject.FindProperty("modifiers");
+        SerializedProperty erosions = serializedObject.FindProperty("erosions");
 
         if (GUILayout.Button("Randomize")) {
             ((TerrainObject)target).Randomize();
@@ -39,6 +41,21 @@ public class TerrainObjectEditor : Editor
         } else {    // Geneveaux Terrain
             EditorGUILayout.PropertyField(riverCount, new GUIContent("River Count"));
         }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(modifiers, new GUIContent("Map Modifiers"));
+
+        EditorGUILayout.Space();
+
+        if (modifiers.arraySize > 0) {
+            EditorGUILayout.LabelField("Modifier Options");
+
+            EditorGUILayout.LabelField("Beyer Erosion Options");
+            EditorGUILayout.PropertyField(erosions, new GUIContent("Erosion"));
+        }
+
+        
 
         EditorGUILayout.Space();
 

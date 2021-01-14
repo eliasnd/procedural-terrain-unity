@@ -7,11 +7,11 @@ using UnityEditor;
 [System.Serializable]
 public class TerrainObject : ScriptableObject
 { public enum Generator { PerlinNoise, ExponentiallyDistributedNoise, Geneveaux }
-    public enum Modifier { HydraulicErosion, WindErosion }
+    public enum Modifier { BeyerHydraulicErosion, WindErosion }
     public enum Container { Texture, Mesh, Terrain }
 
     public Generator generator = Generator.PerlinNoise;
-    public List<Modifier> modifiers;
+    // public List<Modifier> modifiers;
     public Container container;
 
     // Parameters for Perlin Noise
@@ -26,6 +26,9 @@ public class TerrainObject : ScriptableObject
     // Parameters for Geneveaux
 
     public int riverCount = 5;
+
+    // Parameters for Beyer Erosion
+    public int erosions = 1000;
    
     HeightMap map = null;
     
@@ -50,6 +53,11 @@ public class TerrainObject : ScriptableObject
             map = ExponentiallyDistributedNoise.Generate(size, scale, octaves, persistence, lacunarity);
         else if (generator == Generator.Geneveaux)
             map = GeneveauxTerrain.Generate(size, riverCount);  
+
+        foreach(Modifier mod in modifiers) {
+            if (mod == Modifier.BeyerHydraulicErosion)
+                map = BeyerErosion.Erode(map, erosions);
+        }
         
         if (container == Container.Texture) {
             Texture2D tex = HeightMap2Texture(map);
@@ -183,6 +191,18 @@ public class TerrainObject : ScriptableObject
     }
 
     void OnValidate() {
+        // Ensure size is power of 2 + 1
+        if (Mathf.Log(size-1, 2) % 1.0 != 0) {
+            float pow = Mathf.Log(size-1, 2);
+            int low = (int)Mathf.Pow(2, Mathf.FloorToInt(pow));
+            int high = (int)Mathf.Pow(2, Mathf.CeilToInt(pow));
+            if (size-low < high-size)   // Size closer to low -- choose low
+                size = low+1;
+            else
+                size = high+1;
+        }
+
+        // Update Mesh, if present
         if (container == Container.Mesh && obj != null)
             UpdateMesh();
     }
