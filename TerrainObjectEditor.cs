@@ -5,8 +5,62 @@ using UnityEditor;
 public class TerrainObjectEditor : Editor
 {
     public override void OnInspectorGUI() {
-        TerrainObject script = (TerrainObject)target;
+        serializedObject.Update();
 
+        // This sucks, there must be a better way, I know it
+        SerializedProperty generator = serializedObject.FindProperty("generator");
+        SerializedProperty container = serializedObject.FindProperty("container");
+        SerializedProperty size = serializedObject.FindProperty("size");
+        SerializedProperty scale = serializedObject.FindProperty("scale");
+        SerializedProperty octaves = serializedObject.FindProperty("octaves");
+        SerializedProperty persistence = serializedObject.FindProperty("persistence");
+        SerializedProperty lacunarity = serializedObject.FindProperty("lacunarity");
+        SerializedProperty riverCount = serializedObject.FindProperty("riverCount");
+        SerializedProperty tileSize = serializedObject.FindProperty("tileSize");
+        SerializedProperty meshSize = serializedObject.FindProperty("meshSize");
+        SerializedProperty heightCurve = serializedObject.FindProperty("heightCurve");
+        SerializedProperty height = serializedObject.FindProperty("height");
+
+        if (GUILayout.Button("Randomize")) {
+            ((TerrainObject)target).Randomize();
+        }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(generator, new GUIContent("Generator"));
+        EditorGUILayout.Space();
+
+        if (generator.enumValueIndex < 2) {     // Handle Perlin and Exponentialy Distributed Noise
+            EditorGUILayout.PropertyField(size, new GUIContent("Size"));
+            EditorGUILayout.PropertyField(scale, new GUIContent("Scale"));
+            EditorGUILayout.PropertyField(octaves, new GUIContent("Octaves"));
+            EditorGUILayout.PropertyField(persistence, new GUIContent("Persistence"));
+            EditorGUILayout.PropertyField(lacunarity, new GUIContent("Lacunarity"));
+        } else {    // Geneveaux Terrain
+            EditorGUILayout.PropertyField(riverCount, new GUIContent("River Count"));
+        }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(container, new GUIContent("Container"));
+
+        if (container.enumValueIndex == 1)  { // Handle Mesh
+            EditorGUILayout.Space();
+            EditorGUILayout.PropertyField(tileSize, new GUIContent("Tile Size"));
+            EditorGUILayout.PropertyField(meshSize, new GUIContent("Mesh Size"));
+            EditorGUILayout.PropertyField(heightCurve, new GUIContent("Height Curve"));
+            EditorGUILayout.PropertyField(height, new GUIContent("Height"));
+        }
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Generate")) {
+            ((TerrainObject)target).Generate();
+        }
+
+        // Warning -- Old way Below -- bleh!
+        /* 
+        TerrainObject script = (TerrainObject)target;
         script.generator = (TerrainObject.Generator)EditorGUILayout.EnumPopup("Generator", script.generator);
         
         EditorGUILayout.Space();
@@ -26,10 +80,20 @@ public class TerrainObjectEditor : Editor
 
         script.container = (TerrainObject.Container)EditorGUILayout.EnumPopup("Container Type", script.container);
         
+        if (script.container == TerrainObject.Container.Mesh) {
+            EditorGUILayout.Space();
+            script.tileSize = EditorGUILayout.IntField("Tile Size", script.tileSize);
+            script.meshSize = EditorGUILayout.IntField("Mesh Size", script.meshSize);
+            script.heightCurve = EditorGUILayout.CurveField("Height Curve", script.heightCurve);
+            script.height = EditorGUILayout.FloatField("Height Scale", script.height);
+        }
+
         EditorGUILayout.Space();
 
         if (GUILayout.Button("Generate")) {
             script.Generate();
-        }
+        } */
+
+        serializedObject.ApplyModifiedProperties();
     }
 }

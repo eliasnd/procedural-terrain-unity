@@ -1,12 +1,15 @@
 using System;
+using System.Linq;
+using UnityEngine;
 
-public class HeightMap 
+public class HeightMap
 {
     float[] map;
     public int size { get; private set; }
 
     public HeightMap(int size) {
         map = new float[size * size];
+        this.size = size;
     }
     
     public float this[int x, int y] {
@@ -42,6 +45,15 @@ public class HeightMap
                 clone[x, y] = this[x, y];
 
         return clone;
+    }
+
+    public Texture2D ToTexture2D() {
+        Texture2D tex = new Texture2D(size, size);
+
+        Color[] colors = map.Select(val => new Color(val, val, val)).ToArray();
+        tex.SetPixels(colors);
+
+        return tex;
     }
 
     public static HeightMap operator +(HeightMap a, HeightMap b) {
@@ -89,6 +101,16 @@ public class HeightMap
             for (int x = 0; x < h.size; x++)
                 result[x, y] = h[x, y] / f;
 
+        return result;
+    }
+
+    public string ToString() {
+        string result = "HeightMap\nSize " + size + "\n";
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) 
+                result += this[x, y].ToString("F2") + " ";
+            result += "\n";
+        }
         return result;
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PerlinNoise
+public class PerlinNoise : MonoBehaviour
 {
     public static HeightMap Generate(int size, float scale, int octaves, float persistence, float lacunarity) {
         scale = size / scale;
@@ -9,8 +9,7 @@ public class PerlinNoise
 
         HeightMap noiseMap = new HeightMap(size);
 
-        if (scale <= 0)
-            scale = 0.0001f;
+        if (scale <= 0) scale = 0.0001f;
 
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
@@ -35,7 +34,8 @@ public class PerlinNoise
                     maxNoiseHeight = noiseVal;
                 else if (noiseVal < minNoiseHeight)
                     minNoiseHeight = noiseVal;
-
+                
+//                Debug.Log(noiseVal);
                 noiseMap[x, y] = noiseVal;
             }
 
