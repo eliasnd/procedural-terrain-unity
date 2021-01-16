@@ -11,7 +11,7 @@ public class TerrainObject : ScriptableObject
     public enum Container { Texture, Mesh, Terrain }
 
     public Generator generator = Generator.PerlinNoise;
-    // public List<Modifier> modifiers;
+    public List<Modifier> modifiers;
     public Container container;
 
     // Parameters for Perlin Noise
