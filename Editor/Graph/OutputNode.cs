@@ -8,6 +8,6 @@ public class OutputNode : Node {
     }
 
     public HeightMap GetResult() {
-        return node.GetResult();
+        return GetInputValue<BaseNode>("node").GetResult();
     }
 }

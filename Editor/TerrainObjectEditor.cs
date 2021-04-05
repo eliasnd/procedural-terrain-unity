@@ -8,54 +8,17 @@ public class TerrainObjectEditor : Editor
         serializedObject.Update();
 
         // This sucks, there must be a better way, I know it
+        SerializedProperty map = serializedObject.FindProperty("map");
         SerializedProperty generator = serializedObject.FindProperty("generator");
         SerializedProperty container = serializedObject.FindProperty("container");
-        SerializedProperty size = serializedObject.FindProperty("size");
-        SerializedProperty scale = serializedObject.FindProperty("scale");
-        SerializedProperty octaves = serializedObject.FindProperty("octaves");
-        SerializedProperty persistence = serializedObject.FindProperty("persistence");
-        SerializedProperty lacunarity = serializedObject.FindProperty("lacunarity");
-        SerializedProperty riverCount = serializedObject.FindProperty("riverCount");
         SerializedProperty tileSize = serializedObject.FindProperty("tileSize");
         SerializedProperty meshSize = serializedObject.FindProperty("meshSize");
         SerializedProperty heightCurve = serializedObject.FindProperty("heightCurve");
         SerializedProperty height = serializedObject.FindProperty("height");
-        SerializedProperty modifiers = serializedObject.FindProperty("modifiers");
-        SerializedProperty erosions = serializedObject.FindProperty("erosions");
-
-        if (GUILayout.Button("Randomize")) {
-            ((TerrainObject)target).Randomize();
-        }
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.PropertyField(generator, new GUIContent("Generator"));
-        EditorGUILayout.Space();
-
-        if (generator.enumValueIndex < 2) {     // Handle Perlin and Exponentialy Distributed Noise
-            EditorGUILayout.PropertyField(size, new GUIContent("Size"));
-            EditorGUILayout.PropertyField(scale, new GUIContent("Scale"));
-            EditorGUILayout.PropertyField(octaves, new GUIContent("Octaves"));
-            EditorGUILayout.PropertyField(persistence, new GUIContent("Persistence"));
-            EditorGUILayout.PropertyField(lacunarity, new GUIContent("Lacunarity"));
-        } else {    // Geneveaux Terrain
-            EditorGUILayout.PropertyField(riverCount, new GUIContent("River Count"));
-        }
-
-        EditorGUILayout.Space();
-
-        EditorGUILayout.PropertyField(modifiers, new GUIContent("Map Modifiers"));
-
-        EditorGUILayout.Space();
-
-        if (modifiers.arraySize > 0) {
-            EditorGUILayout.LabelField("Modifier Options");
-
-            EditorGUILayout.LabelField("Beyer Erosion Options");
-            EditorGUILayout.PropertyField(erosions, new GUIContent("Erosion"));
-        }
-
-        
+        EditorGUILayout.PropertyField(map, new GUIContent("Height Map"));
 
         EditorGUILayout.Space();
 

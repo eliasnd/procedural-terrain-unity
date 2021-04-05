@@ -1,68 +1,15 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-[CreateAssetMenu(fileName = "New Terrain Object", menuName = "Terrain Object")]
-[System.Serializable]
-public class TerrainObject : ScriptableObject
-{
-    public enum Container { Texture, Mesh, Terrain }
-
-    public Container container;
-   
-    
-    public HeightMap map = null;
-    // Parameters for Mesh generation
-
-    public int tileSize = 64;
-    public int meshSize = 64;
-    public AnimationCurve heightCurve = AnimationCurve.Linear(0, 0, 1, 1);
-    public float height=20;
-
-    GameObject obj = null;
-
-    public void Generate() {
-
-        if (container == Container.Texture) {
-            Texture2D tex = HeightMap2Texture(map);
-            tex.Apply();
-            tex.name = "Texture";
-            AssetDatabase.AddObjectToAsset(tex, this);
-            AssetDatabase.SetMainObject(this, AssetDatabase.GetAssetPath(this)); // This is disgusting and it is the only way I can get the asset to reload and show the texture
-            AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(this));
-
-        } else if (container == Container.Mesh) {
-
-            if (obj != null)
-                DestroyImmediate(obj);
-            /* GameObject obj = new GameObject();
-            Mesh mesh = HeightMap2Mesh(map);
-
-            MeshFilter filter = obj.AddComponent<MeshFilter>();
-            filter.sharedMesh = mesh;
-
-            MeshRenderer renderer = obj.AddComponent<MeshRenderer>();
-            renderer.sharedMaterial = new Material(Shader.Find("Specular"));
-
-            AssetDatabase.AddObjectToAsset(obj, this);
-            AssetDatabase.AddObjectToAsset(mesh, this); */
-
-            obj = HeightMap2Mesh(map);
-            obj.name = "Terrain";
-
-            // PrefabUtility.SaveAsPrefabAsset(obj, "Assets/terrain.prefab");
-            // AssetDatabase.AddObjectToAsset(obj, this);
-
-            // AssetDatabase.SetMainObject(obj, AssetDatabase.GetAssetPath(this));
-        }
-    }
-
-    Texture2D HeightMap2Texture(HeightMap map) {
+public static class Utils {
+    public static Texture2D HeightMap2Texture(HeightMap map) {
         return map.ToTexture2D(); 
     }
 
-    GameObject HeightMap2Mesh(HeightMap map) {
+    public static GameObject HeightMap2Mesh(HeightMap map, int meshSize, float meshHeight, int tileSize, AnimationCurve heightCurve = null) {
+
+        if (heightCurve == null)
+            heightCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
 
         Debug.Assert((map.size - 1) % tileSize == 0);
 
@@ -95,7 +42,7 @@ public class TerrainObject : ScriptableObject
 
                 for (int y = 0; y <= tileSize; y++)
                     for (int x = 0; x <= tileSize; x++) {
-                        float val = heightCurve.Evaluate(map[tx + x, ty + y]) * height;
+                        float val = heightCurve.Evaluate(map[tx + x, ty + y]) * meshHeight;
 
                         vertices.Add(new Vector3(x, val, y));
                         uvs.Add(new Vector2(x / (float)tileSize, y / (float)tileSize));
@@ -125,8 +72,7 @@ public class TerrainObject : ScriptableObject
         return terrain;
     }
 
-    Terrain HeightMap2Terrain(HeightMap map) {
+    public static Terrain HeightMap2Terrain(HeightMap map) {
         return new Terrain();
     }
 }
-

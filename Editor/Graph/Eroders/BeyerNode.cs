@@ -15,14 +15,14 @@ public class BeyerErosionNode : BaseNode {
     public float minSedimentCapacity = 0.01f;
     public float smoothFactor = 2;
 
-    HeightMap result = null;
+    HeightMap map = null;
 
     public override HeightMap GetResult() {
-        if (result == null)
-            result = BeyerErosion.Erode(nodeIn.GetResult(), erosions, inertia, gravity, minSlope, 
+        if (map == null)
+            map = BeyerErosion.Erode(GetInputValue<BaseNode>("nodeIn").GetResult(), erosions, inertia, gravity, minSlope, 
                                         capacity, maxSteps, evaporation, erosion, deposition, 
                                         radius, minSedimentCapacity, smoothFactor);
 
-        return result;
+        return map;
     }
 }

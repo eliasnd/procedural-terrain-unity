@@ -3,12 +3,20 @@ using UnityEditor;
 using UnityEngine;
 using XNode;
 
-[Serializable, CreateAssetMenu(fileName = "New Terrain", menuName = "Terrain")]
+[Serializable, CreateAssetMenu(fileName = "New Terrain Settings", menuName = "Terrain Settings")]
 public class TerrainGraph : NodeGraph {
-    public HeightMap Output() {
+    public HeightMap heightmap;
+    public Texture2D texture;
+    [SerializeField] bool generated = false;
+
+    public void Generate() {
+        texture = new Texture2D(128, 128);
+        
         foreach (Node n in nodes) {
             if (n is OutputNode) {
-                return ((OutputNode)n).GetResult();
+                heightmap = ((OutputNode)n).GetResult();
+                generated = true;
+                return;
             }
         }
 

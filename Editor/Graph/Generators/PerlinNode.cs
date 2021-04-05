@@ -7,17 +7,17 @@ public class PerlinNoiseNode : BaseNode {
     public float persistence = 0.5f;
     public float lacunarity = 2;
     
-    HeightMap result = null;
+    HeightMap map = null;
 
     public override HeightMap GetResult() {
-        if (result == null)
-            result = PerlinNoise.Generate(
+        if (map == null)
+            map = PerlinNoise.Generate(
                 GetInputValue<int>("size", size), 
                 GetInputValue<float>("scale", scale), 
                 GetInputValue<int>("octaves", octaves), 
                 GetInputValue<float>("persistence", persistence), 
                 GetInputValue<float>("lacunarity", lacunarity));
         
-        return result;
+        return map;
     }
 }

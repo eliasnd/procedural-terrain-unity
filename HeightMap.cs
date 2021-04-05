@@ -2,9 +2,10 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class HeightMap
+[Serializable]
+public class HeightMap : UnityEngine.Object
 {
-    float[] map;
+    [SerializeField] float[] map;
     public int size { get; private set; }
 
     public HeightMap(int size) {
