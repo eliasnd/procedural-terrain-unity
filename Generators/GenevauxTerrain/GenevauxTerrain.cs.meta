@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: dc53b17df22994f72be3410f746993b0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - riverSlopeMap: {fileID: 2800000, guid: e81b9a186351749a5b87c629abff65e1, type: 3}
+  - terrainSlopeMap: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

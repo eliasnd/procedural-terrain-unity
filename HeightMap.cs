@@ -1,14 +1,20 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
 
 [Serializable]
-public class HeightMap : UnityEngine.Object
+public class HeightMap
 {
     [SerializeField] float[] map;
     public int size { get; private set; }
 
     public HeightMap(int size) {
+        map = new float[size * size];
+        this.size = size;
+    }
+
+    public void Initialize(int size) {
         map = new float[size * size];
         this.size = size;
     }
@@ -74,6 +80,17 @@ public class HeightMap : UnityEngine.Object
         return result;
     }
 
+    public static HeightMap operator +(HeightMap a, float b) {
+
+        HeightMap result = new HeightMap(a.size);
+
+        for (int y = 0; y < a.size; y++)
+            for (int x = 0; x < a.size; x++)
+                result[x, y] = a[x, y] + b;
+
+        return result;
+    }
+
 
     public static HeightMap operator -(HeightMap a, HeightMap b) {
         if (a.size != b.size)
@@ -84,6 +101,17 @@ public class HeightMap : UnityEngine.Object
         for (int y = 0; y < a.size; y++)
             for (int x = 0; x < a.size; x++)
                 result[x, y] = a[x, y] - b[x, y];
+
+        return result;
+    }
+
+    public static HeightMap operator -(HeightMap a, float b) {
+
+        HeightMap result = new HeightMap(a.size);
+
+        for (int y = 0; y < a.size; y++)
+            for (int x = 0; x < a.size; x++)
+                result[x, y] = a[x, y] - b;
 
         return result;
     }

@@ -8,8 +8,8 @@ public class TerrainObjectEditor : Editor
         serializedObject.Update();
 
         // This sucks, there must be a better way, I know it
-        SerializedProperty map = serializedObject.FindProperty("map");
-        SerializedProperty generator = serializedObject.FindProperty("generator");
+        // SerializedProperty map = serializedObject.FindProperty("map");
+        // SerializedProperty generator = serializedObject.FindProperty("generator");
         SerializedProperty container = serializedObject.FindProperty("container");
         SerializedProperty tileSize = serializedObject.FindProperty("tileSize");
         SerializedProperty meshSize = serializedObject.FindProperty("meshSize");
@@ -18,7 +18,7 @@ public class TerrainObjectEditor : Editor
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.PropertyField(map, new GUIContent("Height Map"));
+        // EditorGUILayout.PropertyField(map, new GUIContent("Height Map"));
 
         EditorGUILayout.Space();
 

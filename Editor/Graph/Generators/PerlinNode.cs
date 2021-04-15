@@ -10,13 +10,12 @@ public class PerlinNoiseNode : BaseNode {
     HeightMap map = null;
 
     public override HeightMap GetResult() {
-        if (map == null)
-            map = PerlinNoise.Generate(
-                GetInputValue<int>("size", size), 
-                GetInputValue<float>("scale", scale), 
-                GetInputValue<int>("octaves", octaves), 
-                GetInputValue<float>("persistence", persistence), 
-                GetInputValue<float>("lacunarity", lacunarity));
+        map = PerlinNoise.Generate(
+            GetInputValue<int>("size", size), 
+            GetInputValue<float>("scale", scale), 
+            GetInputValue<int>("octaves", octaves), 
+            GetInputValue<float>("persistence", persistence), 
+            GetInputValue<float>("lacunarity", lacunarity));
         
         return map;
     }

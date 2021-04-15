@@ -26,11 +26,6 @@ public class TerrainGraphEditor : Editor
                 ((TerrainGraph)target).Generate();
             }
         } else {
-            if (script.heightmap == null)
-            {
-                int i = 0;
-            }
-            EditorGUILayout.ObjectField("HeightMap", script.texture, typeof(Texture2D), false);
             if (GUILayout.Button("Re-generate", GUILayout.Height(25))) {
                 ((TerrainGraph)target).Generate();
             }
